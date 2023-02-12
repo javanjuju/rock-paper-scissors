@@ -3,7 +3,7 @@ function getComputerChoice()
 {
     //This function generates a random number and uses it to determine the computer choice
     let decider = ((Math.random())*100).toFixed(0);
-    console.log(decider);
+    // console.log(decider);
     if(decider%3==0){
         console.log("scissors");
         return "scissors";
@@ -41,7 +41,19 @@ function getUserChoice(){
 }
 
 function playRound()
+// This function gets user input using the getUserChoice function
+// and gets random computer input and compares them 
+//Rock paper scissors is a game where rock beats scissors, paper beats rock and scissors beats paper
+//All this is displayed in the console ie results and input 
+//This is just a blue print as I will later try to make a GUI for the game where one can see 
+//the results in time instead of opening the console after playing 5 rounds 
 {
+    let computerChoice = getComputerChoice();
+    let userChoice = getUserChoice();
+
+    computerChoice = String(computerChoice);
+    userChoice = String(userChoice); 
+
     let draw = "draw";
     let computerWin = "Computer wins";
     let userWin = "User wins";
@@ -82,18 +94,25 @@ function playRound()
         return userWin;
     }
     else{
+        console.log("Computer:",computerChoice);
+        console.log("User", userChoice);
         console.log(draw);
         return draw;
     }
 }
 
-let computerChoice = getComputerChoice();
-let userChoice = getUserChoice();
-
-computerChoice = String(computerChoice);
-userChoice = String(userChoice);
-playRound();
-
+function game()
+{
+    let message = "New round"
+    alert(message);
+    counter = 0;
+    for(counter=0; counter<=4; counter++){
+        playRound();
+        console.log(message);
+    }
+    
+}
+game();
 
 
 
