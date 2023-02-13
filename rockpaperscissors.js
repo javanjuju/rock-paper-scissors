@@ -46,7 +46,7 @@ function playRound()
 //Rock paper scissors is a game where rock beats scissors, paper beats rock and scissors beats paper
 //All this is displayed in the console ie results and input 
 //This is just a blue print as I will later try to make a GUI for the game where one can see 
-//the results in time instead of opening the console after playing 5 rounds 
+//the results in time instead of opening the console after playing 5 rounds
 {
     let computerChoice = getComputerChoice();
     let userChoice = getUserChoice();
@@ -103,16 +103,41 @@ function playRound()
 
 function game()
 {
+    let roundsByComp=0;
+    let roundsByUser = 0;
+    let noWinner = 0;
+    let winner;
     let message = "New round"
     alert(message);
     counter = 0;
     for(counter=0; counter<=4; counter++){
-        playRound();
+        winner = playRound();
         console.log(message);
+        if(winner == String(computerWin)){
+            roundsByComp++;
+        }
+        else if(winner === String(userWin)){
+            roundsByUser++;
+        }
+        else{
+            noWinner++;
+        }
+
+        if(roundsByComp>roundsByUser){
+            return computerWin;
+        }
+        else if(roundsByUser>roundsByComp){
+            return userWin;
+        }
+        else{
+            return draw;
+        }
     }
     
 }
-game();
+let overallWinner = game();
+console.log(" ");
+console.log("Overall winner is ",overallWinner);
 
 
 
