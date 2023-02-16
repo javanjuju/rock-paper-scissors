@@ -1,19 +1,25 @@
-
+//commented code was used during testing and debugging mostly console.log();
+let draw = "draw";
+let computerWin = "Computer wins";
+let userWin = "User wins";
+//The above values are global because they are used by more than one function ie 
+//playRound() and game()
 function getComputerChoice()
 {
+    //commented code was used during testing and debugging
     //This function generates a random number and uses it to determine the computer choice
     let decider = ((Math.random())*100).toFixed(0);
     // console.log(decider);
     if(decider%3==0){
-        console.log("scissors");
+        // console.log("scissors");
         return "scissors";
     }
     else if(decider%2==0){
-        console.log("paper");
+        // console.log("paper");
         return "paper";
     }
     else{
-        console.log("rock");
+        // console.log("rock");
         return "rock";
     }
 }
@@ -27,16 +33,17 @@ function getUserChoice(){
         choice = String(prompt("Enter your choice"));
         choice = choice.toLowerCase();
         if(choice =="paper"||choice== "rock"||choice=="scissors"){
+            checker = 1;
             continue;  
         }
         else{
             warningMessage = "Wrong choice";
             alert(warningMessage);
-            checker=0;
+            checker=-1;
         } 
     }
     
-    console.log(choice);
+    // console.log(choice);
     return choice;
 }
 
@@ -54,9 +61,6 @@ function playRound()
     computerChoice = String(computerChoice);
     userChoice = String(userChoice); 
 
-    let draw = "draw";
-    let computerWin = "Computer wins";
-    let userWin = "User wins";
 
     if((computerChoice== "paper") && (userChoice== "rock")){
         console.log("Computer:",computerChoice);
@@ -112,6 +116,7 @@ function game()
     counter = 0;
     for(counter=0; counter<=4; counter++){
         winner = playRound();
+        console.log(" ");
         console.log(message);
         if(winner == String(computerWin)){
             roundsByComp++;
@@ -122,7 +127,15 @@ function game()
         else{
             noWinner++;
         }
-
+    }
+    let displayWinner = function(){
+        //function used to display number of wins and draws
+        console.log("Computer wins = ",roundsByComp);
+        console.log("User wins = ",roundsByUser);
+        console.log("Draws = ",noWinner);
+        console.log(" ");
+    }();
+    // the if statements below determine the overall winner of the game
         if(roundsByComp>roundsByUser){
             return computerWin;
         }
@@ -132,12 +145,14 @@ function game()
         else{
             return draw;
         }
-    }
     
 }
 let overallWinner = game();
 console.log(" ");
 console.log("Overall winner is ",overallWinner);
+alert(overallWinner);
 
-
+let finalMessage = function(){
+    console.log("Thanks for playing");
+}();
 
