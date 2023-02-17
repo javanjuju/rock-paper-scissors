@@ -1,158 +1,174 @@
-//commented code was used during testing and debugging mostly console.log();
-let draw = "draw";
-let computerWin = "Computer wins";
-let userWin = "User wins";
-//The above values are global because they are used by more than one function ie 
-//playRound() and game()
+const draw = "draw";
+const computerWin = "Computer wins";
+const userWin = "User wins";
+
+const rockButton = document.querySelector('#rock');
+const paperButton = document.querySelector('#paper');
+const scissorsButton = document.querySelector('#scissors');
+const resetButton = document.querySelector('#reset');
+const userWins = document.querySelector('#userWins');
+const compWins = document.querySelector('#compWins');
+const roundDrawn = document.querySelector('#draws');
+const compInput = document.querySelector('#compInput');
+const userInput = document.querySelector('#userInput');
+const totalGames = document.querySelector('#gamesPlayed');
+const gameWon = document.querySelector('#gameWinner');
+const result = document.querySelector('#result');
+
+let roundsPlayed = 0;
+let roundByComp = 0;
+let roundByUser = 0;
+let ties = 0;
+let gamesPlayed = 0;
+let gameByComp = 0;
+let gameByUser = 0;
+let computerChoice;
+let userChoice;
+
 function getComputerChoice()
 {
-    //commented code was used during testing and debugging
-    //This function generates a random number and uses it to determine the computer choice
-    let decider = ((Math.random())*100).toFixed(0);
-    // console.log(decider);
+    const decider = ((Math.random())*100).toFixed(0);
     if(decider%3==0){
-        // console.log("scissors");
         return "scissors";
     }
     else if(decider%2==0){
-        // console.log("paper");
         return "paper";
     }
     else{
-        // console.log("rock");
         return "rock";
     }
 }
-function getUserChoice(){
-    let message = "Input choice in the prompt";
-    alert(message);
-    let choice;
-    let checker = 0;
-    for(checker=0; checker<1;checker++){
-        //Loop is used for checking if user input the correct option
-        choice = String(prompt("Enter your choice"));
-        choice = choice.toLowerCase();
-        if(choice =="paper"||choice== "rock"||choice=="scissors"){
-            checker = 1;
-            continue;  
-        }
-        else{
-            warningMessage = "Wrong choice";
-            alert(warningMessage);
-            checker=-1;
-        } 
-    }
-    
-    // console.log(choice);
-    return choice;
-}
 
-function playRound()
-// This function gets user input using the getUserChoice function
-// and gets random computer input and compares them 
-//Rock paper scissors is a game where rock beats scissors, paper beats rock and scissors beats paper
-//All this is displayed in the console ie results and input 
-//This is just a blue print as I will later try to make a GUI for the game where one can see 
-//the results in time instead of opening the console after playing 5 rounds
+function playRound(getComputerChoice,getUserChoice)
 {
-    let computerChoice = getComputerChoice();
-    let userChoice = getUserChoice();
+    const computerChoice = getComputerChoice;
+    const userChoice = getUserChoice;
 
-    computerChoice = String(computerChoice);
-    userChoice = String(userChoice); 
-
-
-    if((computerChoice== "paper") && (userChoice== "rock")){
+    const roundInformation = () =>{
+        console.log(" ");
+        console.log("New Round");
         console.log("Computer:",computerChoice);
         console.log("User:", userChoice);
+        console.log('Rounds played:'+roundsPlayed);
+        console.log("Games played:"+gamesPlayed);
+    }
+
+    if((computerChoice== "paper") && (userChoice== "rock")){
+        roundInformation();
         console.log("Paper beats Rock, ",computerWin);
         return computerWin;
     }
     else if((userChoice == "paper") && (computerChoice == "rock")){
-        console.log("Computer:",computerChoice);
-        console.log("User:", userChoice);
+        roundInformation();
         console.log("Paper beats Rock, ",userWin);
         return userWin;
     }
     else if((computerChoice == "scissors") && (userChoice == "rock")){
-        console.log("Computer:",computerChoice);
-        console.log("User:", userChoice);
+        roundInformation();
         console.log("Rock beats Scissors, ",userWin );
         return userWin;
     }
     else if((computerChoice == "rock") && (userChoice == "scissors")){
-        console.log("Computer:",computerChoice);
-        console.log("User:", userChoice);
+        roundInformation();
         console.log("Rock beats Scissors, ",computerWin);
         return computerWin;
     }else if((computerChoice == "scissors") && (userChoice == "paper")){
-        console.log("Computer:",computerChoice);
-        console.log("User:", userChoice);
+        roundInformation();
         console.log("Scissors beats Paper, ",computerWin);
         return computerWin;
     }
     else if((computerChoice == "paper") && (userChoice == "scissors")){
-        console.log("Computer:",computerChoice);
-        console.log("User", userChoice);
+        roundInformation();
         console.log("Scissors beats Paper, ",userWin);
         return userWin;
     }
     else{
-        console.log("Computer:",computerChoice);
-        console.log("User", userChoice);
+        roundInformation();
         console.log(draw);
         return draw;
     }
 }
 
-function game()
-{
-    let roundsByComp=0;
-    let roundsByUser = 0;
-    let noWinner = 0;
-    let winner;
-    let message = "New round"
-    alert(message);
-    counter = 0;
-    for(counter=0; counter<=4; counter++){
-        winner = playRound();
-        console.log(" ");
-        console.log(message);
-        if(winner == String(computerWin)){
-            roundsByComp++;
-        }
-        else if(winner === String(userWin)){
-            roundsByUser++;
-        }
-        else{
-            noWinner++;
-        }
+function roundWinner(){
+    let winner = playRound(computerChoice= getComputerChoice(),userChoice); 
+    if(winner == computerWin){
+        roundByComp++;
     }
-    let displayWinner = function(){
-        //function used to display number of wins and draws
-        console.log("Computer wins = ",roundsByComp);
-        console.log("User wins = ",roundsByUser);
-        console.log("Draws = ",noWinner);
-        console.log(" ");
+    else if(winner == userWin){
+        roundByUser++;
+    }
+    else{
+        ties++;
+    }
+    let gameWinner = function(){
+        if((roundsPlayed%5)==0){
+            gamesPlayed++;
+            if(roundByComp>roundByUser){
+                gameByComp++;
+                roundByUser =0;
+                roundByComp = 0;
+                ties = 0;
+                return computerWin;
+            }
+            else if(roundByUser>roundByComp){
+                gameByUser++;
+                roundByUser =0;
+                roundByComp = 0;
+                ties = 0;
+                return userWin;
+            }
+            else if(roundByUser==roundByComp){
+                roundByUser =0;
+                roundByComp = 0;
+                ties = 0;
+                return draw;
+            }
+        }
     }();
-    // the if statements below determine the overall winner of the game
-        if(roundsByComp>roundsByUser){
-            return computerWin;
-        }
-        else if(roundsByUser>roundsByComp){
-            return userWin;
-        }
-        else{
-            return draw;
-        }
-    
+
+    userWins.textContent = 'Rounds won by User: '+roundByUser;
+    compWins.textContent = 'Rounds won by Comp: '+roundByComp;
+    roundDrawn.textContent = 'Rounds drawn: '+ties;
+    compInput.textContent = 'Computer: '+computerChoice;
+    userInput.textContent = 'User: '+userChoice;
+    totalGames.textContent = 'Games played: '+gamesPlayed;
+
+    if(winner == computerWin){
+        result.textContent = 'Computer Wins!!';
+    }
+    else if(winner == userWin){
+        result.textContent = 'User wins!!'
+    }
+    else{
+        result.textContent = 'Draw..';
+    }
+
+    if(gameWinner != undefined){
+        gameWon.textContent = 'Game winner: '+gameWinner;
+    }
+    else{
+        gameByComp.textContent = 'Current game in progress';
+    }
 }
-let overallWinner = game();
-console.log(" ");
-console.log("Overall winner is ",overallWinner);
-alert(overallWinner);
 
-let finalMessage = function(){
-    console.log("Thanks for playing");
-}();
-
+rockButton.addEventListener('click', ()=>{
+    userChoice = 'rock';
+    roundsPlayed++;
+    roundWinner();
+    return userChoice = 'rock'   
+}
+);
+paperButton.addEventListener('click', ()=>{
+    userChoice = 'paper';
+    roundsPlayed++;
+    roundWinner();
+    return userChoice = 'paper'}
+);
+scissorsButton.addEventListener('click', ()=>{
+    userChoice = 'scissors';
+    roundsPlayed++;
+    roundWinner();
+    return userChoice = 'scissors'}
+);
+resetButton.addEventListener('click',()=>{
+    window.location.reload()});
